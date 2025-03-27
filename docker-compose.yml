@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  css_server:
+    build:
+      context: ./server-gaming
+    container_name: css_server
+    restart: unless-stopped
+    ports:
+      - "27015:27015/udp"
+      - "27005:27005/udp"
+      - "27020:27020/udp"
+    volumes:
+      - ./cstrike:/home/steam/cstrike
+    environment:
+      - SRCDS_MAP=de_dust2
+      - CSS_PORT=27015
+      - CSS_MAXPLAYERS=16
+      - RCON_PASSWORD=1234
+      - CSS_TICKRATE=100
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mariadb:10.5
+    container_name: css_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: css
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: adminpass
+    volumes:
+      - ./mysql:/var/lib/mysql
+    ports:
+      - "3308:3306"
+
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   container_name: css_phpmyadmin
+  #   restart: unless-stopped
+  #   environment:
+  #     - PMA_HOST=mysql
+  #     - MYSQL_ROOT_PASSWORD=root
+  #   ports:
+  #     - "8080:80"
+
+  # sourcebans:
+  #   image: crazymax/sourcebans
+  #   container_name: css_sourcebans
+  #   restart: unless-stopped
+  #   environment:
+  #     - DB_HOST=mysql
+  #     - DB_PORT=3308
+  #     - DB_NAME=css
+  #     - DB_USER=admin
+  #     - DB_PASS=adminpass
+  #   ports:
+  #     - "8000:80"
+  #   volumes:
+  #     - ./sourcebans:/var/www/html
