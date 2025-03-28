@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   css_server:
     build:
@@ -18,6 +16,7 @@ services:
       - CSS_MAXPLAYERS=16
       - RCON_PASSWORD=1234
       - CSS_TICKRATE=100
+      - CSS_SVLAN=1
     depends_on:
       - mysql
 
