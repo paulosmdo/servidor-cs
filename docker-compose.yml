@@ -9,7 +9,7 @@ services:
       - "27005:27005/udp"
       - "27020:27020/udp"
     volumes:
-      - ./cstrike:/home/steam/cstrike
+      - ./cstrike:/home/steam/css
     environment:
       - SRCDS_MAP=de_dust2
       - CSS_PORT=27015
